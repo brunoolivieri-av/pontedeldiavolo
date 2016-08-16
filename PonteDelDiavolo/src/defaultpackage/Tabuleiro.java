@@ -234,7 +234,46 @@ public class Tabuleiro {
 		Quadrado quadrado = new Quadrado(cor);
 		posicao.posicionarQuadrado(quadrado);
 		this.pegaListaQuadrados(cor).add(posicao.pegaQuadrado());
-		this.atualizaBancoDeAreia();
+		this.atualizaBancoDeAreia(linha, coluna, cor);
+	}
+
+	private void atualizaBancoDeAreia(int linha, int coluna, Cor cor) {
+		Posicao posicao = this.pegaPosicao(linha, coluna);
+		Quadrado quadrado = posicao.pegaQuadrado();
+		
+		HashMap<Direcao, Posicao> todosOsVizinhos = pegaVizinhos(linha, coluna);
+		if( posicao != null){
+			boolean achado = false;
+			for(Posicao vizinhoOrtogonal: this.pegaVizinhosOrtogonais(todosOsVizinhos).values()){
+				if(vizinhoOrtogonal != null && vizinhoOrtogonal.temQuadrado() && vizinhoOrtogonal.pegaQuadrado().informaCor() == cor){
+					if(!achado){
+						quadrado.recebeBancoDeAreia(vizinhoOrtogonal.pegaQuadrado().pegueBancoDeAreia());
+						achado = quadrado.pegueBancoDeAreia().adicionaQuadrado(quadrado);
+					}
+					else {
+						quadrado.pegueBancoDeAreia().juntarBancoDeAreia(vizinhoOrtogonal.pegaQuadrado().pegueBancoDeAreia());
+					}
+				}
+			}
+			if(!achado){
+				BancoDeAreia novoBancoDeAreia = new BancoDeAreia(quadrado);
+				quadrado.recebeBancoDeAreia(novoBancoDeAreia);
+			}
+			atualizaBancosDeAreiaVizinhosDasPosicoesVizinhas
+		}
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void atualizabancosDeAreiaVizinhosDasPosicoesVizinhas(Posicao posicao, Cor cor){
+		if(posicao != null){
+			if(posicao.pegaQuadrado() != null && posicao.pegaQuadrado().informaCor() == cor){
+				BancoDeAreia bancoDeAreiaVizinho = posicao.pegaQuadrado().pegueBancoDeAreia();
+				if(bancoDeAreiaVizinho != null){
+					
+				}
+			}
+		}
 	}
 
 	private List<Quadrado> pegaListaQuadrados(Cor cor) {

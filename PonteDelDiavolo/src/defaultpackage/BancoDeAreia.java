@@ -40,4 +40,73 @@ public class BancoDeAreia {
 		this.ligado = ligado;
 	}
 
+
+	public boolean adicionaQuadrado(Quadrado quadrado) {
+		if(quadrado != null && podeReceberQuadrado(quadrado) && quadrado.informaCor() == this.cor){
+			this.listaQuadrados.add(quadrado);
+			this.tamanho++;
+			
+			quadrado.recebeBancoDeAreia(this);
+			
+			return true;
+		}
+		return false;
+	}
+
+
+	private boolean podeReceberQuadrado(Quadrado quadrado) {
+		if(this.tamanho < 3){
+			return true;
+		}
+		else {
+			if(this.tamanho == 3){
+				if (quadrado != null && temVizinhos()){
+					if(this.bancosDeAreiaVizinhos.size() == 1 
+							&& this.bancosDeAreiaVizinhos.contains(quadrado.pegueBancoDeAreia())
+							&& (this.bancosDeAreiaVizinhos.size() + quadrado.pegueBancoDeAreia().informarTamanho()) <= 4){
+						return true;
+					}
+				}
+				else{
+					if(!temVizinhos()){
+						return true;
+					}
+				}
+			}
+			return false;
+		}		
+	}
+// TODO add em banco de areia vizinhos
+
+
+	public boolean juntarBancoDeAreia(BancoDeAreia bancoDeAreia) {
+		if (permitidoJuntarBancoDeAreia(bancoDeAreia)){
+
+            List<Quadrado> novosQuadrados = bancoDeAreia.pegaListaQuadrados();
+            for(Quadrado novoQuadrado: novosQuadrados){
+            	this.adicionaQuadrado(novoQuadrado);
+            }
+            if (this.bancosDeAreiaVizinhos.contains(bancoDeAreia))
+                this.bancosDeAreiaVizinhos.remove(bancoDeAreia);
+
+
+            return true;
+        }
+        return false;
+		
+	}
+
+
+private boolean permitidoJuntarBancoDeAreia(BancoDeAreia bancoDeAreia) {
+	return (bancoDeAreia != null && this != bancoDeAreia && bancoDeAreia.tamanho + this.tamanho <= 4 && bancoDeAreia.informaCor() == this.cor );
+}
+
+
+private Cor informaCor() {
+	return this.cor;
+}
+
+public List<Quadrado> pegaListaQuadrados(){
+	return this.listaQuadrados;
+}
 }

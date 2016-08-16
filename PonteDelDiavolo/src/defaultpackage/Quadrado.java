@@ -17,7 +17,9 @@ public class Quadrado {
 		return this.bancoDeAreia;
 	}
 	
-	
+	public void recebeBancoDeAreia(BancoDeAreia bancoDeAreia){
+		this.bancoDeAreia = bancoDeAreia;
+	}
 	
 	
 }
