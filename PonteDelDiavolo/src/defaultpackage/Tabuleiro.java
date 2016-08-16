@@ -237,6 +237,11 @@ public class Tabuleiro {
 		this.atualizaBancoDeAreia();
 	}
 
+	private void atualizaBancoDeAreia() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private List<Quadrado> pegaListaQuadrados(Cor cor) {
 		if(cor == Cor.BRANCO){
 			return this.listaQuadradosBrancos;
@@ -348,7 +353,7 @@ public class Tabuleiro {
 	}
 
 
-	public ImagemTabuleiro informarEstado() {
+	public Tabuleiro informarEstado() {
 		// TODO - implement Tabuleiro.informarEstado
 		throw new UnsupportedOperationException();
 	}

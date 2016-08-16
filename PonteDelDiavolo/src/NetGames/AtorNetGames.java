@@ -2,8 +2,7 @@ package NetGames;
 
 import javax.swing.JOptionPane;
 
-import DominioDoProblema.Lance;
-import InterfaceGrafica.AtorJogador;
+import defaultpackage.AtorJogador;
 import br.ufsc.inf.leobr.cliente.Jogada;
 import br.ufsc.inf.leobr.cliente.OuvidorProxy;
 import br.ufsc.inf.leobr.cliente.Proxy;
@@ -82,16 +81,16 @@ public class AtorNetGames implements OuvidorProxy {
 		}
 	}
 
-	public void enviaJogada(Lance lance) {
-		try {
-			proxy.enviaJogada(lance);
-			ehMinhaVez = false;
-		} catch (NaoJogandoException e) {
-			JOptionPane.showMessageDialog(interfaceGrafica.informarJanela(),
-					e.getMessage());
-			e.printStackTrace();
-		}
-	}
+//	public void enviaJogada(Lance lance) {
+//		try {
+//			proxy.enviaJogada(lance);
+//			ehMinhaVez = false;
+//		} catch (NaoJogandoException e) {
+//			JOptionPane.showMessageDialog(interfaceGrafica.informarJanela(),
+//					e.getMessage());
+//			e.printStackTrace();
+//		}
+//	}
 
 	@Override
 	public void iniciarNovaPartida(Integer posicao) {
@@ -118,12 +117,12 @@ public class AtorNetGames implements OuvidorProxy {
 
 	}
 
-	@Override
-	public void receberJogada(Jogada jogada) {
-		ehMinhaVez = true;
-		Lance lance = (Lance) jogada;
-		interfaceGrafica.receberJogada(lance);
-	}
+//	@Override
+//	public void receberJogada(Jogada jogada) {
+//		ehMinhaVez = true;
+//		Lance lance = (Lance) jogada;
+//		interfaceGrafica.receberJogada(lance);
+//	}
 
 	@Override
 	public void tratarConexaoPerdida() {
@@ -139,6 +138,12 @@ public class AtorNetGames implements OuvidorProxy {
 
 	public boolean ehMinhaVez() {
 		return ehMinhaVez;
+	}
+
+	@Override
+	public void receberJogada(Jogada jogada) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
