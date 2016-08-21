@@ -10,6 +10,7 @@ public class Tabuleiro {
 	protected List<Ponte> listaPontes = null;
 	protected List<Quadrado> listaQuadradosBrancos = null;
 	protected List<Quadrado> listaQuadradosVermelhos = null;
+	protected boolean inicializado = false;
 
 	public void inicializa() {
 		posicoes = new Posicao[10][10];
@@ -20,9 +21,10 @@ public class Tabuleiro {
 				posicoes[linha][coluna] = new Posicao(linha, coluna);
 			}
 		}
-		listaPontes = new ArrayList<>();
-		listaQuadradosVermelhos = new ArrayList<>();
-		listaQuadradosBrancos = new ArrayList<>();
+		this.listaPontes = new ArrayList<>();
+		this.listaQuadradosVermelhos = new ArrayList<>();
+		this.listaQuadradosBrancos = new ArrayList<>();
+		this.inicializado = true;
 	}
 
 	// método que retorna uma posicao
@@ -476,6 +478,86 @@ public class Tabuleiro {
 			}
 		}
 		return (numeroDeQuadradosPermitidos == 2);
+	}
+	
+	public boolean inicializado(){
+		return this.inicializado;
+	}
+	
+	public int informePontos(Cor cor){
+		if(this != null && this.inicializado() && cor != null){
+			List<List<BancoDeAreia>>listaBancoDeAreiaConectados = new ArrayList<>();
+			List<Quadrado> quadradosTratados = new ArrayList<>();
+			
+			for(Quadrado quadrado : this.pegaListaQuadrados(cor)){
+				if(quadrado != null && !quadradosTratados.contains(quadrado)){
+					
+					BancoDeAreia bancoDeAreia = quadrado.pegueBancoDeAreia();
+					for(Quadrado quadradoDoBA : bancoDeAreia.pegaListaQuadrados()){
+						
+						Ponte ponte = quadradoDoBA.pegaPonte();
+						
+						if(ponte != null){
+							boolean achada = false;
+							for(List<BancoDeAreia> bancoDeAreiaConectado : listaBancoDeAreiaConectados){
+								if(bancoDeAreiaConectado.contains(ponte.pegaBase1().pegueBancoDeAreia()) 
+										|| bancoDeAreiaConectado.contains(ponte.pegaBase2().pegueBancoDeAreia())){
+									achada = true;
+								
+									if(!bancoDeAreiaConectado.contains(ponte.pegaBase1().pegueBancoDeAreia())){
+										bancoDeAreiaConectado.add(ponte.pegaBase1().pegueBancoDeAreia());
+									}
+									if(!bancoDeAreiaConectado.contains(ponte.pegaBase2().pegueBancoDeAreia())){
+										bancoDeAreiaConectado.add(ponte.pegaBase2().pegueBancoDeAreia());
+									}
+								}
+							}
+							
+							if(!achada){
+								List<BancoDeAreia> bancoDeAreiaConectado = new ArrayList<>();
+								bancoDeAreiaConectado.add(ponte.pegaBase1().pegueBancoDeAreia());
+								bancoDeAreiaConectado.add(ponte.pegaBase2().pegueBancoDeAreia());
+								listaBancoDeAreiaConectados.add(bancoDeAreiaConectado);
+							}							
+						}
+						else if (bancoDeAreia.ehIlha()){
+							
+							boolean achada = false;
+							for(List<BancoDeAreia> listaBancoDeAreia : listaBancoDeAreiaConectados){
+								if(listaBancoDeAreia.contains(bancoDeAreia)){
+									achada = true;
+								}
+							}
+							if(!achada){
+								List<BancoDeAreia> listaBancoDeAreia = new ArrayList<>();
+								listaBancoDeAreiaConectados.add(listaBancoDeAreia);
+							}
+						}
+						quadradosTratados.add(quadradoDoBA);
+					}
+				}
+			}
+			
+			int resultado = 0;
+			for(List<BancoDeAreia> listaBancoDeAreia : listaBancoDeAreiaConectados){
+				int cpt = 0;
+				
+				for(BancoDeAreia bancoDeAreia : listaBancoDeAreia){
+					if(bancoDeAreia.ehIlha()){
+						cpt++;
+					}
+				}
+				resultado += pontosDoNumeroDeIlhas(cpt);
+			}
+			return resultado;
+		}
+		return -1;
+	}
+
+	private static int pontosDoNumeroDeIlhas(int numeroDeIlhasConectadas) {
+		if(numeroDeIlhasConectadas >= 0)
+			return ( numeroDeIlhasConectadas * (numeroDeIlhasConectadas + 1)) / 2;
+		return 0;
 	}
 
 }

@@ -14,7 +14,18 @@ public class Ponte {
 
 		this.base1.pegueBancoDeAreia().ligado(true);
 		this.base2.pegueBancoDeAreia().ligado(true);
+		
+		this.base1.recebePonte(this);
+		this.base2.recebePonte(this);
 
+	}
+	
+	public Quadrado pegaBase1(){
+		return this.base1;
+	}
+	
+	public Quadrado pegaBase2(){
+		return this.base2;
 	}
 
 	public static boolean posicoesCompativeis(int linha1, int coluna1,
