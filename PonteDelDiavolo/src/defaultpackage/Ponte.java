@@ -4,8 +4,8 @@ import static java.lang.StrictMath.abs;
 
 public class Ponte {
 
-	private Quadrado base1;
-	private Quadrado base2;
+	protected Quadrado base1;
+	protected Quadrado base2;
 
 	public Ponte(Quadrado base1, Quadrado base2) {
 

@@ -165,7 +165,7 @@ public class Tabuleiro {
 		return false;
 	}
 
-	private HashMap<Direcao, Posicao> pegaVizinhos(int linha, int coluna) {
+	public HashMap<Direcao, Posicao> pegaVizinhos(int linha, int coluna) {
 		HashMap<Direcao, Posicao> vizinhos = new HashMap<Direcao, Posicao>();
 
 		// POSICAO OESTE

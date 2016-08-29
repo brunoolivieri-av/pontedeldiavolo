@@ -52,10 +52,6 @@ public class Posicao {
 		
 	}
 
-	public boolean podePosicionarQuadrado(Cor cor) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	public void posicionarQuadrado(Quadrado quadrado) {
 		this.quadrado = quadrado;
