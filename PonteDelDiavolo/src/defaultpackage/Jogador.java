@@ -24,18 +24,12 @@ package defaultpackage;
 			this.daVez = false;
 		}
 
-		/**
-		 * 
-		 * @param nome
-		 */
 		public void assumirNome(String nome) {
 			this.nomeUsuario = nome;
+			this.daVez = false;
+			this.vencedor = false;
 		}
 
-		/**
-		 * 
-		 * @param corJogador
-		 */
 		public void assumirCor(Cor corJogador) {
 			this.cor = corJogador;
 		}

@@ -2,7 +2,7 @@ package NetGames;
 
 import javax.swing.JOptionPane;
 
-import defaultpackage.AtorJogador;
+import interfacegrafica.AtorJogador;
 import br.ufsc.inf.leobr.cliente.Jogada;
 import br.ufsc.inf.leobr.cliente.OuvidorProxy;
 import br.ufsc.inf.leobr.cliente.Proxy;
