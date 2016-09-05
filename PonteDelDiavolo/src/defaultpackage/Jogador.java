@@ -8,6 +8,10 @@ package defaultpackage;
 		protected boolean daVez;
 		protected boolean vencedor;
 
+		public Jogador(){
+			this.daVez = false;
+			this.vencedor = false;
+		}
 		//TODO trabalhar melhor a classe jogador tanto código quanto no diagrama de classes
 		public boolean informarSeDaVez() {
 			//TODO mudar retorno do método no diagrama de classes

@@ -1,5 +1,6 @@
 package interfacegrafica;
 
+import defaultpackage.Cor;
 import defaultpackage.Partida;
 import NetGames.AtorNetGames;
 
@@ -14,8 +15,6 @@ public class AtorJogador {
 		super();
 		this.rede = new AtorNetGames(this);
 		this.partida = new Partida();
-		//TODO verificar onde a partida e o tabuleiro são inicializados
-		//this.partida.iniciar();
 		this.janela = janela;
 	}
 
@@ -45,10 +44,10 @@ public class AtorJogador {
 		return servidor;
 	}
 	
-		public boolean querEncerrar() {
+	public boolean querEncerrar() {
 			// TODO - implement AtorJogador.querEncerrar
 			throw new UnsupportedOperationException();
-		}
+	}
 
 		public void passaVez() {
 			// TODO - implement AtorJogador.passaVez
@@ -70,13 +69,30 @@ public class AtorJogador {
 		}
 
 		public int iniciarPartida() {
-			// TODO - implement AtorJogador.iniciarPartida
-			throw new UnsupportedOperationException();
+			boolean interromper = false;
+			boolean conectado = false;
+			int resultado = -1;
+
+			boolean andamento = partida.isJogoEmAndamento();
+			if (andamento)
+				interromper = avaliarInterrupcao(); // ainda nao foi implementado,
+			// esta apenas retornando true
+			else
+				conectado = partida.isConectado();
+
+			if (interromper || (!andamento && conectado)) 
+				rede.iniciarPartida();  
+			else
+				resultado = 4;
+			/*
+			 * resultado: 4 - nao esta conectado 
+			 * se for exito vai aparecer as pecas no tabuleiro
+			 */
+			return resultado;
 		}
 
 		public boolean avaliarInterrupcao() {
-			// TODO - implement AtorJogador.avaliarInterrupcao
-			throw new UnsupportedOperationException();
+			return true;
 		}
 
 		/**
@@ -84,13 +100,44 @@ public class AtorJogador {
 		 * @param posicao
 		 */
 		public void tratarIniciarPartida(int posicao) {
-			// TODO - implement AtorJogador.tratarIniciarPartida
-			throw new UnsupportedOperationException();
+			String nomeOutro = rede.informarNomeAdversario(nome);
+			partida.tratarIniciarPartida(posicao, nome, nomeOutro);
+			janela.habilitarQuadradoParaSelecao(Cor.BRANCO);			
+			janela.exibirEstado();
+		}
+
+		public ImagemTabuleiro informarEstado() {
+			ImagemTabuleiro estado = partida.informarEstado();
+			return estado;
 		}
 
 		public int desconectar() {
-			// TODO - implement AtorJogador.desconectar
-			throw new UnsupportedOperationException();
+			/*
+			 * resultado: 14 - desconexao com exito 15 - desconexao sem
+			 * conexao estabelecida 16 - desconexao falhou
+			 */
+			boolean andamento = partida.isJogoEmAndamento();
+			boolean conectado = false;
+			if (andamento) {
+				partida.encerrarPartidaAndamento();
+			} else {
+				conectado = partida.isConectado();
+			}
+
+			boolean exito = false;
+
+			if (andamento || conectado) {
+				exito = rede.desconectar();
+				if (exito) {
+					partida.estabeleceConectado(!exito);
+				} else {
+					return 16;
+				}
+			} else {
+				return 15;
+			}
+
+			return 14;
 		}
 
 		/**

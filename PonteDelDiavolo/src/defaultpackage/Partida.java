@@ -31,28 +31,34 @@ public class Partida {
 		public boolean isJogoEmAndamento() {
 			return this.jogoEmAndamento;
 		}
-
-		/**
-		 * 
-		 * @param posicao
-		 */
-		public void tratarIniciarPartida(int posicao) {
-			// TODO - implement Partida.tratarIniciarPartida
-			throw new UnsupportedOperationException();
+		
+		public void tratarIniciarPartida(int posicao, String nome,String nomeOutro) {
+			this.tabuleiro = new Tabuleiro();
+			tabuleiro.inicializa();
+			this.jogoEmAndamento = true;
+			this.criarJogador(nome, posicao);
+			int posicaoOutro = 1;
+			if (posicao == 1)
+				posicaoOutro = 2;
+			this.criarJogador(nomeOutro, posicaoOutro);
+			jogador1.assumirCor(Cor.BRANCO);
+			jogador2.assumirCor(Cor.VERMELHO);
+			jogador1.recebeVez();
 		}
-
-		/**
-		 * 
-		 * @param nome
-		 */
-		public void criarJogador(string nome) {
-			// TODO - implement Partida.criarJogador
-			throw new UnsupportedOperationException();
+		
+		public void criarJogador(String nome, int posicao) {
+			//jogador 1 é sempre o primeiro a jogar
+			if (posicao == 1) {
+				jogador1 = new Jogador();
+				jogador1.assumirNome(nome);
+			} else {
+				jogador2 = new Jogador();
+				jogador2.assumirNome(nome);
+			}
 		}
 
 		public void encerrarPartidaAndamento() {
-			// TODO - implement Partida.encerrarPartidaAndamento
-			throw new UnsupportedOperationException();
+			this.jogoEmAndamento = false;
 		}
 
 		/**

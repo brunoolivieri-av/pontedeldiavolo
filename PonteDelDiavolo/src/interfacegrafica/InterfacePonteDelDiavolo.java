@@ -73,7 +73,7 @@ public class InterfacePonteDelDiavolo extends JFrame{
 			case 1:	JOptionPane.showMessageDialog(this, "Falha ao tentar conectar."); break;
 			case 2:	JOptionPane.showMessageDialog(this, "Exito em efetuar conexao"); break;
 			case 3:	JOptionPane.showMessageDialog(this, "Cancelado iniciar partida"); break;
-			//case 4:	JOptionPane.showMessageDialog(this,	"Nao ha conexao para iniciar partida");	break;
+			case 4:	JOptionPane.showMessageDialog(this,	"Nao ha conexao para iniciar partida");	break;
 			//case 5:	JOptionPane.showMessageDialog(this, "Exito em iniciar partida"); break;
 			//case 6:	JOptionPane.showMessageDialog(this, "Posicao selecionada sem peca"); break;
 			//case 7:	JOptionPane.showMessageDialog(this,	"Peca invalida \nPeca do oponente"); break;
@@ -81,9 +81,9 @@ public class InterfacePonteDelDiavolo extends JFrame{
 			//case 11: JOptionPane.showMessageDialog(this, "Partida chegou ao fim com derrota"); break;
 			//case 12: JOptionPane.showMessageDialog(this, "Partida chegou ao fim com vitoria"); break;
 			//case 13: JOptionPane.showMessageDialog(this, "Partida chegou ao fim com empate"); break;
-			//case 14: JOptionPane.showMessageDialog(this, "Desconexao com exito"); break;
-			//case 15: JOptionPane.showMessageDialog(this, "Desconexao sem conexao estabelecida"); break;
-			//case 16: JOptionPane.showMessageDialog(this, "Desconexao falhou"); break;		
+			case 14: JOptionPane.showMessageDialog(this, "Desconexao com exito"); break;
+			case 15: JOptionPane.showMessageDialog(this, "Desconexao sem conexao estabelecida"); break;
+			case 16: JOptionPane.showMessageDialog(this, "Desconexao falhou"); break;		
 			//case 17: JOptionPane.showMessageDialog(this, "Eh sua vez"); break;
 			//case 18: JOptionPane.showMessageDialog(this, "Nao eh sua vez\nAguarde o lance do outro jogador"); break;
 			//case 19: JOptionPane.showMessageDialog(this, "Passou a vez!"); break;
@@ -92,22 +92,24 @@ public class InterfacePonteDelDiavolo extends JFrame{
 		}
 
 		public void iniciarPartida() {
-			// TODO - implement InterfacePonteDelDiavolo.iniciarPartida
-			throw new UnsupportedOperationException();
+			int resultado = atorJog.iniciarPartida();
+			if(resultado == 4)
+				this.notifica(resultado);
 		}
 
 		public void desconectar() {
-			// TODO - implement InterfacePonteDelDiavolo.desconectar
-			throw new UnsupportedOperationException();
+			int resultado = atorJog.desconectar();
+			this.notifica(resultado);
 		}
 
 		/**
 		 * 
 		 * @param estado
 		 */
-		public void exibirEstado(ImagemTabuleiro estado) {
-			// TODO - implement InterfacePonteDelDiavolo.exibirEstado
-			throw new UnsupportedOperationException();
+		public void exibirEstado() {
+			//TODO
+			ImagemTabuleiro estado = atorJog.informarEstado();
+			atualizaTela(estado);
 		}
 
 		/**
