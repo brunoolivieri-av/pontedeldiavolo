@@ -23,6 +23,8 @@ public class InterfacePonteDelDiavolo extends JFrame{
 		protected JMenuItem MenuItemIniciar;
 		protected JMenuItem menuItemDesconectar;
 		protected JLabel mapaPosicao[][] = new JLabel[10][10];
+		private boolean emPosicionamentoQuadrado = false;
+		private boolean emPosicionamentoPonte = false;
 
 		public void conectar() {
 			int resultado = atorJog.conectar();
@@ -58,10 +60,7 @@ public class InterfacePonteDelDiavolo extends JFrame{
 			this.notifica(resultado);
 		}
 
-		public void posicionaPonte() {
-			// TODO - implement InterfacePonteDelDiavolo.posicionaPonte
-			throw new UnsupportedOperationException();
-		}
+		
 
 		/**
 		 * 
@@ -85,9 +84,15 @@ public class InterfacePonteDelDiavolo extends JFrame{
 			case 15: JOptionPane.showMessageDialog(this, "Desconexao sem conexao estabelecida"); break;
 			case 16: JOptionPane.showMessageDialog(this, "Desconexao falhou"); break;		
 			//case 17: JOptionPane.showMessageDialog(this, "Eh sua vez"); break;
-			//case 18: JOptionPane.showMessageDialog(this, "Nao eh sua vez\nAguarde o lance do outro jogador"); break;
+			case 18: JOptionPane.showMessageDialog(this, "Nao eh sua vez\nAguarde o lance do outro jogador"); break;
 			//case 19: JOptionPane.showMessageDialog(this, "Passou a vez!"); break;
-			//case 20: JOptionPane.showMessageDialog(this, "Partida nao iniciada");
+			case 20: JOptionPane.showMessageDialog(this, "Partida nao iniciada"); break;
+			case 21: JOptionPane.showMessageDialog(this, "Clique na posição desejada para posicionar primeiro quadrado"); break;
+			case 22: JOptionPane.showMessageDialog(this, "Primeiro quadrado posicionado com sucesso! \nClique na posição desejada para posicionar segundo quadrado"); break;
+			case 23: JOptionPane.showMessageDialog(this, "Segundo quadrado posicionado com sucesso! \nFim da vez");break;
+			case 24: JOptionPane.showMessageDialog(this, "Posicionamento inválido");break;
+			case 25: JOptionPane.showMessageDialog(this, "Clique em duas posições para posicionar uma ponte entre elas"); break;
+			case 26: JOptionPane.showMessageDialog(this, "Ponte posicionada com sucesso! \nFim da vez"); break;
 			}
 		}
 
@@ -159,14 +164,48 @@ public class InterfacePonteDelDiavolo extends JFrame{
 			throw new UnsupportedOperationException();
 		}
 
-		/**
-		 * 
-		 * @param linha
-		 * @param coluna
-		 */
+		public void posicionaQuadrado() {
+			// clique do mouse no botão de posicionar quadrado
+			// TODO fazer métodos que chamem este com o listener
+			int resultado = atorJog.posicionaQuadrado();
+			// 20 - partida não iniciada, 18 - não é a vez do jogador
+			// 21 - Clique na posição desejada para posicionar primeiro quadrado
+			if(resultado = 21){
+				this.emPosicionamentoQuadrado  = true;
+			}
+			this.notifica(resultado);
+		}
+		
 		public void posicionaQuadrado(int linha, int coluna) {
-			// TODO - implement InterfacePonteDelDiavolo.posicionaQuadrado
-			throw new UnsupportedOperationException();
+			if(emPosicionamentoQuadrado){
+				int resultado = atorJog.posicionaQuadrado(linha, coluna);
+				if(resultado == 23){
+					emPosicionamentoQuadrado = false;
+				}
+				notifica(resultado);
+			}	
+		}
+		
+		public void posicionaPonte() {
+			// clique do mouse no botão de posicionar ponte
+			// TODO fazer métodos que chamem este com o listener
+			int resultado = atorJog.posicionaPonte();
+			// 20 - partida não iniciada, 18 - não é a vez do jogador
+			// 25 - Clique em duas posições para posicionar uma ponte entre elas
+			if(resultado == 25){
+				this.emPosicionamentoPonte  = true;
+			}
+				this.notifica(resultado);
+		}
+		
+		public int posicionaPonte(int linha1, int coluna1, int linha2, int coluna2) {
+			if(emPosicionamentoPonte){
+				int resultado = atorJog.posicionaPonte(linha1, coluna1, linha2, coluna2);
+				if(resultado == 26){
+					emPosicionamentoQuadrado = false;
+				}
+				notifica(resultado);
+			}
 		}
 
 		/**
@@ -222,25 +261,14 @@ public class InterfacePonteDelDiavolo extends JFrame{
 			throw new UnsupportedOperationException();
 		}
 
-		public void posicionaQuadrado() {
-			// TODO - implement InterfacePonteDelDiavolo.posicionaQuadrado
-			throw new UnsupportedOperationException();
-		}
 
 		public void desabilitaTabuleiro() {
 			// TODO - implement InterfacePonteDelDiavolo.desabilitaTabuleiro
 			throw new UnsupportedOperationException();
 		}
 
-		/**
-		 * 
-		 * @param linha
-		 * @param coluna
-		 */
-		public int posicionaPonte(int linha, int coluna) {
-			// TODO - implement InterfacePonteDelDiavolo.posicionaPonte
-			throw new UnsupportedOperationException();
-		}
+		
+		
 
 	}
 }

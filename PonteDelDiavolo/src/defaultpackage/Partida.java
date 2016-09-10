@@ -43,6 +43,7 @@ public class Partida {
 			this.criarJogador(nomeOutro, posicaoOutro);
 			jogador1.assumirCor(Cor.BRANCO);
 			jogador2.assumirCor(Cor.VERMELHO);
+			this.jogadorDaVez = jogador1;
 			jogador1.recebeVez();
 		}
 		
@@ -89,19 +90,8 @@ public class Partida {
 			// TODO - implement Partida.perdeVez
 			throw new UnsupportedOperationException();
 		}
-
-		/**
-		 * 
-		 * @param linha1
-		 * @param coluna1
-		 * @param linha2
-		 * @param colina2
-		 */
-		public int posicionaPonte(int linha1, int coluna1, int linha2, int colina2) {
-			// TODO - implement Partida.posicionaPonte
-			throw new UnsupportedOperationException();
-		}
-
+		
+		
 		public int primOuSegQuad() {
 			// TODO - implement Partida.primOuSegQuad
 			throw new UnsupportedOperationException();
@@ -122,8 +112,7 @@ public class Partida {
 		 * @param jogada
 		 */
 		public void receberJogada(Lance jogada) {
-			// TODO - implement Partida.receberJogada
-			throw new UnsupportedOperationException();
+			jogada.ehQuadrado();
 		}
 
 		public boolean verificarSeRecJogFinVer() {
@@ -145,15 +134,33 @@ public class Partida {
 			// TODO - implement Partida.ehJogadaFinal
 			throw new UnsupportedOperationException();
 		}
+		
+		public boolean posicionaQuadrado(int linha, int coluna) {
+			Cor cor = jogadorDaVez.informaCor();			
+			boolean podePosicionar = this.tabuleiro.podePosicionarQuadrado(linha, coluna, cor);
+			if(podePosicionar){
+				this.tabuleiro.posicionarQuadrado(linha, coluna, cor);
+				return true;		
+			}
+			else{
+				return false; 
+			}
+		}
+		
+		public boolean posicionaPonte(int linha1, int coluna1, int linha2, int coluna2) {
+			Cor cor = jogadorDaVez.informaCor();			
+			boolean podePosicionar = this.tabuleiro.podePosicionarPonte(linha1, coluna1, linha2, coluna2, cor);
+			if(podePosicionar){
+				this.tabuleiro.posicionarPonte(linha1, coluna1, linha2, coluna2, cor);
+				return true;		
+			}
+			else{
+				return false; 
+			}
+		}
 
-		/**
-		 * 
-		 * @param linha
-		 * @param coluna
-		 */
-		public int posicionaQuadrado(int linha, int coluna) {
-			// TODO - implement Partida.posicionaQuadrado
-			throw new UnsupportedOperationException();
+		public void fimDoPosicionamento() {
+			this.trocaVez();			
 		}
 
 	}

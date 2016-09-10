@@ -10,6 +10,7 @@ public class AtorJogador {
 	protected String nome;
 	protected InterfacePonteDelDiavolo janela;
 	protected AtorNetGames rede;
+	protected int posQuadVal = -1;
 	
 	public AtorJogador(InterfacePonteDelDiavolo janela) {
 		super();
@@ -140,10 +141,7 @@ public class AtorJogador {
 			return 14;
 		}
 
-		/**
-		 * 
-		 * @param posicaoSelecionada
-		 */
+		
 		public void selecionaPosicao(Posicao posicaoSelecionada) {
 			// TODO - implement AtorJogador.selecionaPosicao
 			throw new UnsupportedOperationException();
@@ -153,26 +151,13 @@ public class AtorJogador {
 			// TODO - implement AtorJogador.selecionarQuadrado
 			throw new UnsupportedOperationException();
 		}
+		
+		
 
-		/**
-		 * 
-		 * @param linha1
-		 * @param coluna1
-		 * @param linha2
-		 * @param coluna2
-		 */
-		public int posicionaPonte(int linha1, int coluna1, int linha2, int coluna2) {
-			// TODO - implement AtorJogador.posicionaPonte
-			throw new UnsupportedOperationException();
-		}
-
-		/**
-		 * 
-		 * @param jogada
-		 */
 		public void receberJogada(Lance jogada) {
-			// TODO - implement AtorJogador.receberJogada
-			throw new UnsupportedOperationException();
+			int resultado = partida.receberJogada(jogada);
+			//janela.exibirEstado();
+			//janela.notifica(resultado);
 		}
 
 		/**
@@ -219,9 +204,20 @@ public class AtorJogador {
 			throw new UnsupportedOperationException();
 		}
 
-		public void posicionaQuadrado() {
-			// TODO - implement AtorJogador.posicionaQuadrado
-			throw new UnsupportedOperationException();
+		public int posicionaQuadrado() {
+			boolean jogoEmAndamento = partida.isJogoEmAndamento();
+			if(jogoEmAndamento){
+				boolean ehMinhaVez = rede.ehMinhaVez();
+				if(ehMinhaVez){
+					janela.habilitaTabuleiroParaSelecao();
+					this.posQuadVal  = 0;
+					return 21;
+				}
+				return 18;
+			}
+			else{
+				return 20;
+			}
 		}
 
 		/**
@@ -229,9 +225,27 @@ public class AtorJogador {
 		 * @param linha
 		 * @param coluna
 		 */
-		public int posicionaQuadrado(int linha, int coluna) {
-			// TODO - implement AtorJogador.posicionaQuadrado
-			throw new UnsupportedOperationException();
+		public int posicionaQuadrado(int linha, int coluna) {			
+			if(posQuadVal >= 0 && posQuadVal < 2){
+				boolean sucesso = partida.posicionaQuadrado(linha, coluna);
+				if(sucesso){
+					posQuadVal++;
+					if(posQuadVal == 1){
+						return 22;
+					}
+					if(posQuadVal == 2){
+						janela.desabilitaTabuleiro();
+						partida.fimDoPosicionamento();
+						rede.enviaJogada(lance);
+						posQuadVal = -1;
+						return 23;
+					}
+				}
+				else{
+					return 24;
+				}
+			}
+			return 24;
 		}
 
 		public void desabiltaTabuleiro() {
@@ -239,12 +253,32 @@ public class AtorJogador {
 			throw new UnsupportedOperationException();
 		}
 
-		public void posicionaPonte() {
-			// TODO - implement AtorJogador.posicionaPonte
-			throw new UnsupportedOperationException();
+		public int posicionaPonte() {
+			boolean jogoEmAndamento = partida.isJogoEmAndamento();
+			if(jogoEmAndamento){
+				boolean ehMinhaVez = rede.ehMinhaVez();
+				if(ehMinhaVez){
+					janela.habilitaTabuleiroParaSelecao();
+					return 25;
+				}
+				return 18;
+			}
+			else{
+				return 20;
+			}
 		}
-
-	}
-	}
+		
+		public int posicionaPonte(int linha1, int coluna1, int linha2, int coluna2) {
+			boolean sucesso = partida.posicionaPonte(linha1, coluna1, linha2, coluna2);
+				if(sucesso){
+					janela.desabilitaTabuleiro();
+					partida.fimDoPosicionamento();
+					rede.enviaJogada(lance);
+					return 26;
+				}
+				else{
+					return 24;
+				}			
+		}
 
 }

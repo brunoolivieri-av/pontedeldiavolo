@@ -2,6 +2,8 @@ package NetGames;
 
 import javax.swing.JOptionPane;
 
+
+
 import interfacegrafica.AtorJogador;
 import br.ufsc.inf.leobr.cliente.Jogada;
 import br.ufsc.inf.leobr.cliente.OuvidorProxy;
@@ -142,7 +144,9 @@ public class AtorNetGames implements OuvidorProxy {
 
 	@Override
 	public void receberJogada(Jogada jogada) {
-		// TODO Auto-generated method stub
+		ehMinhaVez = true;
+		Lance lance = (Lance) jogada;
+		interfaceGrafica.receberJogada(lance);
 		
 	}
 
